@@ -13,7 +13,7 @@ CHAT_ID = "@Tradecocom"
 # ===============================
 # SETTINGS
 # ===============================
-PAIRS = ["BTC/USDT", "ETH/USDT", "SOL/USDT"]
+PAIRS = ["BTC/USDT", "ETH/USDT", "BNB", "SOL/USDT"]
 
 TIMEFRAMES = ["5m", "15m", "30m", "1h", "4h", "1d"]
 
@@ -21,9 +21,13 @@ EMA_FAST = 20
 EMA_SLOW = 50
 SWING_LOOKBACK = 15
 
-exchange = ccxt.binanceus({
+exchange = ccxt.bybit({
     "enableRateLimit": True,
+    "options": {
+        "defaultType": "spot"
+    }
 })
+
 
 last_alert = {}  # prevents duplicate alerts
 
