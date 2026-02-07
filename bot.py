@@ -13,14 +13,16 @@ CHAT_ID = "@Tradecocom"
 # ===============================
 # SETTINGS
 # ===============================
-PAIRS = ["BTC/USDT", "ETH/USDT", "BNB", "SOL/USDT"]
-
+PAIRS = ["BTC/USDT", "ETH/USDT", "BNB/USDT", "SOL/USDT"]
 TIMEFRAMES = ["5m", "15m", "30m", "1h", "4h", "1d"]
 
 EMA_FAST = 20
 EMA_SLOW = 50
 SWING_LOOKBACK = 15
 
+# ===============================
+# ✅ BYBIT
+# ===============================
 exchange = ccxt.bybit({
     "enableRateLimit": True,
     "options": {
@@ -28,8 +30,7 @@ exchange = ccxt.bybit({
     }
 })
 
-
-last_alert = {}  # prevents duplicate alerts
+last_alert = {}
 
 # ===============================
 # TELEGRAM MESSAGE
@@ -38,6 +39,12 @@ def send_alert(text):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     data = {"chat_id": CHAT_ID, "text": text}
     requests.post(url, data=data)
+
+# ===============================
+# ❤️ HEARTBEAT (RAILWAY LOG)
+# ===============================
+def heartbeat_log():
+    print(f"💓 Bot heartbeat | UTC {datetime.now(timezone.utc)}")
 
 # ===============================
 # FETCH DATA
@@ -98,12 +105,14 @@ def check_signal(symbol, timeframe):
     return False
 
 # ===============================
-# MAIN LOOP (ONE SIGNAL PER 5 MIN)
+# MAIN LOOP
 # ===============================
 print("🚀 TradingCo Signal Bot Started")
 
 while True:
     try:
+        heartbeat_log()   # ❤️ HEARTBEAT HERE
+
         sent = False
 
         for pair in PAIRS:
@@ -117,5 +126,6 @@ while True:
         time.sleep(300)  # 5 minutes
 
     except Exception as e:
-        print("Error:", e)
+        print("❌ Error:", e)
         time.sleep(60)
+        
