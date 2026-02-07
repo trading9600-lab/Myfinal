@@ -25,10 +25,17 @@ SWING_LOOKBACK = 15
 # ===============================
 exchange = ccxt.bybit({
     "enableRateLimit": True,
+    "urls": {
+        "api": {
+            "public": "https://api.bybit.com",
+            "private": "https://api.bybit.com"
+        }
+    },
     "options": {
         "defaultType": "spot"
     }
 })
+
 
 last_alert = {}
 
